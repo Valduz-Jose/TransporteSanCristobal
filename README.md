@@ -1,0 +1,2 @@
+# TransporteSanCristobal
+ La Alcaldía de San Cristóbal está liderando un proyecto de manejo de las rutas de cada una de las  empresas de transporte público que transitan en la ciudad. Para realizar esto la Alcaldía ha decidido  en conjunto con la Universidad del Táchira contratar a los estudiantes de Programación II de Ing.  En Informática para que desarrollen un sistema web para registro y consulta de las rutas de las  diferentes empresas de transportes públicos.
