@@ -33,12 +33,12 @@
     <div class="container fluid ">
         <div class="card text-center border-primary ">
                     <div class="card border-primary">
-                        <div class="card header "><p><?php echo "Usuario: ".$most['user'] ?></div>
+                        <div class="card header "><p><?php echo "Nombre y apellido: ".$most['nombre']." ".$most['apellido'] ?></div>
                         <div class="card-body">
                             <h5 class="card-title"><?php echo "Dirigida a: ".$most['empresa_l'];?></h5>
                             <p class="card-text"><?php echo "Comentario: ".$most['comentario']; ?></p>
                         </div>
-                        <div class="card-footer bg-transparent border-succes"><?php echo "Nombre y apellido: ".$most['nombre']." ".$most['apellido']." correo de contacto: ".$most['correo']." Telefono: ".$most['tlf']; ?></div>
+                        <div class="card-footer bg-transparent border-succes"><?php echo "Correo de contacto: ".$most['correo']." Telefono: ".$most['tlf']; ?></div>
                     </div> 
         </div>
     </div>
