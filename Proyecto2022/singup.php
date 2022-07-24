@@ -50,9 +50,18 @@
 <?php require 'partials/header.php'?>
 
 <div class="container-fluid">
-        <?php if(!empty($message)):?>
-            <p><?= $message ?></p>
-        <?php endif;?>
+<!-- ALERTAS -->
+<?php if(!empty($message)){?>
+            <?php if($message=='Usuario Creado'){?>
+                <div class="alert alert-success" role="alert">
+                    <?= $message ?>
+                </div>
+            <?php }else{?>
+                <div class="alert alert-danger" role="alert">
+                    <?= $message ?>
+                </div>
+            <?php }?>
+        <?php } ?>
         <figure class="text-center">
             <h1>Singup</h1>
             <span>o <a class="btn btn-dark" role="button" href="login.php">Login</a></span>        

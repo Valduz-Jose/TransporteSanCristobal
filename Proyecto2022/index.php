@@ -9,9 +9,12 @@
         $records->execute();
         $results = $records->fetch(PDO::FETCH_ASSOC);
         $users =null;
-        if(count($results)>0){
-            $user=$results;
+        if(is_countable($results)){
+            if(count($results)>0){
+                $user=$results;
+            }
         }
+        
 
     }
     // Para Imprimir Todas las Rutas
@@ -24,9 +27,9 @@
     $resulted=mysqli_query($conect,$man);
 
 // GUARDO EN LA BASE DE DATOS LOS COMENTARIO
-    if(!empty($_POST['comentario'])&&!empty($_POST['nombre'])&&!empty($_POST['apellido'])&&!empty($_POST['correo'])&&!empty($_POST['tlf'])){
+    if(!empty($_POST['comentario']) && !empty($_POST['nombre']) && !empty($_POST['apellido']) && !empty($_POST['correo'])&& !empty($_POST['tlf'])){
         //    se crea la variable para conectar y las variables que se enviaran
-            $com = "INSERT INTO comentarios(nombre,apellido,correo,tlf,empresa_l,user,comentario) VALUES (:nombre,:apellido,:correo,:tlf,:empresa_l,:user, :comentario)";
+            $com = "INSERT INTO comentarios(nombre,apellido,correo,tlf,empresa_l,comentario) VALUES (:nombre,:apellido,:correo,:tlf,:empresa_l,:comentario)";
             //stmt es la conexion a ejecutar y preparar
             $stmt=$conn->prepare($com);
             //vincular parametros
@@ -35,8 +38,6 @@
             $stmt->bindParam(':correo',$_POST['correo']);
             $stmt->bindParam(':tlf',$_POST['tlf']);
             $stmt->bindParam(':empresa_l',$_POST['empresa_l']);
-            $usuario=$user['email'];
-            $stmt->bindParam(':user',$usuario);
             $stmt->bindParam(':comentario',$_POST['comentario']);
             
             // Si al ejecutar funciona o no
@@ -184,15 +185,24 @@
             </tbody>
         </table><br><br>
 </div>
-    
+    <!-- ALERTAS -->
+<?php if(!empty($message)){?>
+            <?php if($message=='Comentario Enviado'){?>
+                <div class="alert alert-success" role="alert">
+                    <?= $message ?>
+                </div>
+            <?php }else{?>
+                <div class="alert alert-danger" role="alert">
+                    <?= $message ?>
+                </div>
+            <?php }?>
+<?php } ?>
+
     <!-- Creacion de las distintas funcionalidades segun el Usuario -->
     <?php if(!empty($user)){
         if ($user['tipo']==0){
         
     ?>
-        <?php if(!empty($message)):?>
-        <p><?= $message ?></p>
-        <?php endif; ?>
         <form action="index.php" method="post">
             <figure class="text-center">
                 <label for="buzon"><h3>Buzón de Criticas y Sugerencias</h3></label>
@@ -205,7 +215,7 @@
                     <input class="form-control" type="text" name="apellido" placeholder="Apellido" id="">
                 </div>
                 <div class="mb-3 col-6 mx-auto">
-                    <input class="form-control" type="text" name="correo" placeholder="correo" id="">
+                    <input class="form-control" type="email" name="correo" placeholder="correo" id="">
                 </div>
                 <div class="mb-3 col-6 mx-auto">
                     <input class="form-control" type="text" name="tlf" placeholder="#Telefono" id="">
@@ -225,8 +235,10 @@
                         ?>
                     </select>
                 </div>
-                <div class="mb-3 col-6 mx-auto">
-                    <input type="text" class="form-control"  name="comentario" placeholder="Comentario" id="">
+                <div class="form-floating mb-3 col-6 mx-auto">
+                    <textarea class="form-control" name="comentario" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                    
+                    <label for="floatingTextarea2"  aria-placeholder="Comentario"></label>
                 </div>
                 <div class="d-grid gap-2 col-6 mx-auto">
                     <input type="submit" class="btn btn-primary" class="btn btn-primary" value="Enviar">

@@ -42,9 +42,18 @@
         <br><h1>Añadir Nueva Ruta</h1>
 </figure>
     <form action="admin.php" method="post">
-            <?php if(!empty($message)):?>
-            <p><?= $message ?></p>
-            <?php endif; ?> 
+        <!-- ALERTAS -->
+        <?php if(!empty($message)){?>
+            <?php if($message=='La Ruta no se pudo Añadir'){?>
+                <div class="alert alert-danger" role="alert">
+                    <?= $message ?>
+                </div>
+            <?php }else{?>
+                <div class="alert alert-success" role="alert">
+                    <?= $message ?>
+                </div>
+            <?php }?>
+        <?php } ?>
         <div class="container-fluid">
             <div class="mb-3 col-6 mx-auto">
                 <label for="empresa" class="form-label">Empresa</label>
