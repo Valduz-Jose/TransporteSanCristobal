@@ -7,7 +7,7 @@
     //si no esta vacio comprobamos 
     if(!empty($_POST['email'])&&!empty($_POST['password'])){//
         //tratamos de consultar a traves de la conexion con select obtenemos los datos y desde donde
-        $records =$conn->prepare('SELECT id, email,password,tipo FROM users WHERE email = :email');
+        $records =$conn->prepare('SELECT *  FROM users WHERE email = :email');
         //vinculamos el parametro que recibe con el de la base
         $records->bindParam(':email',$_POST['email']);
         //ejecutamos la consulta
@@ -16,22 +16,33 @@
         $results = $records->fetch(PDO::FETCH_ASSOC);
         //mensaje por pantalla
         $message='';
-        if(count($results)>0 && password_verify($_POST['password'],$results['password'])&& $_POST['tipo']==$results['tipo']){
-            $_SESSION['user_id']=$results['id'];//almacena
-            if($results['tipo']==0){//usuario normal
-                header('Location: /proyecto2022');//redirecciona
-            }else if($results['tipo']==1803){//admin
-                header('Location: /proyecto2022/admin.php');//redirecciona
-            }else if($results['tipo']==777){//Alcaldia
-                header('Location: /proyecto2022/alcaldia.php');//redirecciona
+        if(is_countable($results)){
+            if(count($results)>0){
+                if(password_verify($_POST['password'],$results['password'])){
+                    $_SESSION['user_id']=$results['id'];//almacena
+                    if($results['tipo']==0){//usuario normal
+                        header('Location: /proyecto2022');//redirecciona
+                    }else if($results['tipo']==1803){//admin
+                        header('Location: /proyecto2022/admin.php');//redirecciona
+                    }else if($results['tipo']==777){//Alcaldia
+                        header('Location: /proyecto2022/alcaldia.php');//redirecciona
+                    }else{
+                        $message="Credenciales Incorrectas";
+                    }
+                }else{
+                    $message="Contraseña Incorrecta";
+                }
+                
+                
             }else{
-                $message="Credenciales Incorrectas";
+                $message="Ingrese Todos Los datos";
+                
             }
-            
+    
         }else{
-            $message="Las Credenciales no coinciden";
+            $message="Registrate Primero ve a Singup";
         }
-
+        
     }
 ?>
 <!DOCTYPE html>
@@ -41,23 +52,51 @@
     <title>login</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="assets/style.css">
+    <!-- <link rel="stylesheet" href="assets/style.css"> -->
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" >
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
 </head>
 <body>
 <?php require 'partials/header.php'?>
-    
-    <?php if(!empty($message)):?>
-        <p><?= $message ?></p>
-    <?php endif;?>
-    <h1>Login</h1>
-    <span>o <a href="singup.php">Singup</a></span>
+    <div class="container-fluid">
+        <!-- ALERTAS -->
+<?php if(!empty($message)):?>
+<div class="alert alert-danger" role="alert">
+  <?= $message ?>
+</div>
+<?php endif;?>
+
+        <figure class="text-center">
+            <h1>Login</h1>
+            <span>o <a class="btn btn-dark" role="button" href="singup.php">Singup</a></span>        
+        </figure>
+    </div>
     
     <form action="login.php" method="post">
-        <input type="text" name="email" placeholder="Enter your Email" id="">
-        <input type="password" name="password" placeholder="Enter your Password">
-        <input type="text" name="tipo" placeholder="Credenciales" id="">
-        <input type="Submit" value="Enviar">
+        <div class="container-fluid">
+            <div class="mb-3 col-6 mx-auto">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" placeholder="name@example.com" id="">
+            </div>
+            <div class="mb-3 col-6 mx-auto">
+                <label for="password" class="forml-label">Contraseña</label>
+                <input type="password" class="form-control" name="password" placeholder="Enter your Password">
+            </div>
+            <!-- <div class="mb-3 col-6 mx-auto">
+                <label for="tipo" class="form-label">Credenciales</label>
+                <input type="text" name="tipo" class="form-control" placeholder="0 usuarios normales" id="">
+            </div> -->
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <input type="Submit" class="btn btn-primary mb-3"  value="Enviar">
+            </div>
+        </div>
     </form>
 </body>
+<footer>
+    <figure class="text-center">
+        <!-- Date -->
+        <label for="" class="form-label"><?php echo date("d/m/Y" ) ?></label>
+        <!-- DATE -->
+        </figure>
+</footer>
 </html>

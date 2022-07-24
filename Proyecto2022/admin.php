@@ -28,27 +28,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="assets/style.css">
+    <!-- <link rel="stylesheet" href="assets/style.css"> -->
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" >
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    
     <title>Administración</title>
 </head>
 <body>
 <?php require 'partials/header.php'?>
-    <h1>Añadir Nueva Ruta</h1>
+<figure class="text-center">
+        <br><h1>Añadir Nueva Ruta</h1>
+</figure>
     <form action="admin.php" method="post">
             <?php if(!empty($message)):?>
             <p><?= $message ?></p>
             <?php endif; ?> 
-
-            <input type="text" name="empresa"placeholder="Empresa que cubre la ruta" id="empresa">
-            <input type="text" name="inicio" placeholder="Punto de Inicio" id="">
-            <input type="text" name="ruta" placeholder="Recorrido" id="">
-            <input type="text" name="fin" placeholder="Punto de Fin" id="">
-            <input type="text" name="costo" placeholder="Monto en Bs" id="">
-            <input type="submit" name="enviar" value="Añadir">
-            
+        <div class="container-fluid">
+            <div class="mb-3 col-6 mx-auto">
+                <label for="empresa" class="form-label">Empresa</label>
+                <input class="form-control" type="text" name="empresa"placeholder="Nombre Empresa" id="empresa">
+            </div>
+            <div class="mb-3 col-6 mx-auto">
+            <label for="inicio" class="form-label">Punto de Inicio</label>
+                <input class="form-control" type="text" name="inicio" placeholder="Salida" id="inicio">
+            </div>
+            <div class="mb-3 col-6 mx-auto">
+            <label for="ruta" class="form-label">Ruta</label>
+                <input class="form-control" type="text" name="ruta" placeholder="Recorrido" id="ruta">
+            </div>
+            <div class="mb-3 col-6 mx-auto">
+            <label for="fin" class="form-label">Punto de Fin</label>
+                <input class="form-control" type="text" name="fin" placeholder="Lugar de Llegada" id="fin">
+            </div>
+            <div class="mb-3 col-6 mx-auto">
+            <label for="costo" class="form-label">Precio del Pasaje</label>
+                <input class="form-control" type="text" name="costo" placeholder="Monto en Bs" id="costo">
+            </div>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <input type="submit" class="btn btn-primary"  name="enviar" value="Añadir">
+                </div>
+            </div>
+        </div>
     </form>
 </body>
+<?php require 'partials/footer.php'?>
 </html>
